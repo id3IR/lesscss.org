@@ -75,45 +75,56 @@
 
     a%3D1
     
-Note: Function behavior if a parameter is non-string parameters is not defined. Current implementation returns `undefined` on color and unchanged input on any other kind of argument. This behaviour should not be relied on and can change in the future.
+Примітка: Поведінка функції, якщо параметр не рядок, або не визначений. 
+Поточна реалізаціє повертає `undefined` для кольору і незмінене вхідне значення 
+для аргументів іншого типу. Така поведінка може змінитися у наступних версіях.
 
 ###e
-CSS escaping similar to `~"value"` syntax. It expects string as a parameter and return its content as is, but without quotes. It can be used to output CSS value which is either not valid CSS syntax, or uses proprietary syntax which LESS doesn’t recognize.
+CSS екранування, синтакс подібний до `~"value"`. Функція очікує аргументом рядок 
+і повертає його вміст "як є", але без лапок. Це можна використовувати для виводу 
+CSS значення котре має або не валідний CSS синтакс, або використовує синтакс, 
+який не підтримується LESS.
 
-Parameters:
+Параметри:
 
-* `string`: A string to escape
+* `string`: Рядок для екранування
 
-Returns: `string` content without quotes.
+Повертає: `string` без лапок.
 
-Example:
+Приклад:
 
     filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
 
-Output:
+Результат:
 
     filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
     
-Note: The function accepts also `~""` escaped values and numbers as parameters. Anything else returns an error.
+Примітка: Функція приймає, також, `~""` екрановані значення і числа, як параметри. 
+Будь-що інше призведе до помилок.
 
 ###% format
-The function `%("format", arguments ...)` formats a string. The first argument is string with placeholders. All placeholders start with percentage symbol `%` followed by letter `s`,`S`,`d`,`D`,`a`, or `A`. Remaining arguments contain expressions to replace placeholders. If you need to print the percentage symbol, escape it by another percentage `%%`.
+Функція `%("format", arguments ...)` форматує рядок. Перший аргумент - рядок із плейсхолдерами (placeholders). 
+Всі плейсхолдери починаються із символу відсотка `%`, за яким йде літера `s`,`S`,`d`,`D`,`a`, чи `A`. 
+Інші аргуманти містять значення для заміни плейсхолдерів. Якщо потрібно вивести символ відсотку, екрануйте його іншим символом відсотку `%%`.
 
-Use uppercase placeholders if you need to escape special characters into their utf-8 escape codes. 
-The function escapes all special characters except `()'~!`. Space is encoded as `%20`. Lowercase placeholders leave special characters as they are. 
+Використовуйте плейсхолдери у верхньому регістрі, якщо потрібно екранувати спеціальні символи у їх utf-8 escape коди. 
+Функція екранує всі спеціальні символи, крім `()'~!`. Пробіл кодується як `%20`. Плейсхолдери у нижньому регістрі залишають спеціальні символи "як є". 
 
-Placeholders:
-* d, D, a, A - can be replaced by any kind of argument (color, number, escaped value, expression, ...). If you use them in combination with string, the whole string will be used - including its quotes. However, the quotes are placed into the string as they are, they are not escaped by "/" nor anything similar.
-* s, S - can be replaced by any kind of argument except color. If you use them in combination with string, only the string value will be used - string quotes are omitted.
+Плейсхолдери:
+* d, D, a, A - можуть бути замінені будь аргументами будь-якого типу (колір, число, екранована змінна, вираз, ...). 
+Якщо ви використовуєте їх у комбінації із рядком, буде використаний рядок повністю, із лапками. 
+Тим не менше, лапки будуть вставлені у рядок "як є", не екрановані "/" чи подібно.
+* s, S - можуть бути замінені аргументами будь-якого типу, крім кольору. 
+Якщо використовувати їх у комбінації із рядком, тільки значення рядка буде використовуватися - лапки пропустяться.
 
-Parameters:
+Параметри:
 
-* `string`: format string with placeholders,
-* `anything`* : values to replace placeholders.
+* `string`: формат рядка із плейсхолдерами,
+* `anything`* : значення для заміни плейсхолдерів.
 
-Returns: formatted `string`.
+Повертає: форматований рядок `string`.
 
-Example:
+Приклад:
 
     format-a-d: %("repetitions: %a file: %d", 1 + 2, "directory/file.less");
     format-a-d-upper: %('repetitions: %A file: %D', 1 + 2, "directory/file.less");
@@ -121,592 +132,607 @@ Example:
     format-s-upper: %('repetitions: %S file: %S', 1 + 2, "directory/file.less");
 
 
-Output:
+Результат:
 
     format-a-d: "repetitions: 3 file: "directory/file.less"";
     format-a-d-upper: "repetitions: 3 file: %22directory%2Ffile.less%22";
     format-s: "repetitions: 3 file: directory/file.less";
     format-s-upper: "repetitions: 3 file: directory%2Ffile.less";
     
-#Misc functions
+#Змішані функції
 ###color
-Parses a color, so a string representing a color becomes a color.
+Парсить колір, таким чином, рядок, що репрезентує колір, стає кольором.
 
-Parameters:
+Параметри:
 
-* `string`: A string of the color
+* `string`: рядок із кольором
 
-Example:
+Приклад:
 
     color("#aaa");
 
-Output:
+Результат:
 
     #aaa
 
 ###unit
-Remove or change the unit of a dimension
+Видалити або змінити одиниці виміру
 
-Parameters:
+Параметри:
 
-* `dimension`: A number, with or without a dimension
-* `unit`: Optional: the unit to change to, or if omitted it will remove the unit
+* `dimension`: число із, або без, точності
+* `unit`: Опціонально: одиниця виміру, в яку конвертувати, або, якщо пропущено, видалити одиницю виміру
 
-Example:
+Приклад:
 
     unit(5, px)
 
-Output:
+Результат:
 
     5px
 	
-Example:
+Приклад:
 
     unit(5em)
 
-Output:
+Результат:
 
     5
 
-#Math functions
+#Математичні функції
 ###ceil
-Rounds up to the next highest integer.
+Округлення "вверх" до наступного, більшлго цілого значення.
 
-Parameters:
+Параметри:
 
-* `number`: A floating point number.
+* `number`: Дійсне число.
 
-Returns: `integer`
+Повертає: `ціле число`
 
-Example:
+Приклад:
 
     ceil(2.4)
 
-Output:
+Результат:
 
     3
+
 ###floor
-Rounds down to the next lowest integer.
+Округлення числа "вниз" до попереднього, меншого цілого числа.
 
-Parameters:
+Параметри:
 
-* `number`: A floating point number.
+* `number`: Дійсне число.
 
-Returns: `integer`
+Повертає: ціле число `ціле число`
 
-Example:
+Приклад:
 
     floor(2.6)
 
-Output:
+Результат:
 
     2
 ###percentage
-Converts a floating point number into a percentage string.
+Конвертує дійсне число у відсотки.
 
-Parameters:
+Параметри:
 
-* `number`: A floating point number.
+* `number`: Дійсне число.
 
-Returns: `string`
+Повертає: `string`
 
-Example:
+Приклад:
 
     percentage(0.5)
 
-Output:
+Результат:
 
     50%
 ###round
-Applies rounding.
+Округлення.
 
-Parameters:
+Параметри:
 
-* `number`: A floating point number.
-* `decimalPlaces`: Optional: The number of decimal places to round to. Defaults to 0.
+* `number`: Дійсне число.
+* `decimalPlaces`: Опціонально: Точність округлення. За замовчуванням 0.
 
-Returns: `number`
+Повертає: `number`
 
-Example:
+Приклад:
 
     round(1.67)
 
-Output:
+Результат:
 
     2
 	
-Example:
+Приклад:
 
     round(1.67, 1)
 
-Output:
+Результат:
 
     1.7
-#Color functions
-##Color definition
+#Функції кольору
+##Визначення кольору
 ###rgb
-Creates an opaque color object from decimal red, green and blue (RGB) values. Literal color values in standard HTML/CSS formats may also be used to define colors, for example `#ff0000`.
+Створює об’єкт непрозорого кольору із десяткових red, green та blue (RGB) значень. 
+Стандартне значення кольору HTML/CSS формату можна також використовувати, наприклад `#ff0000`.
 
-Parameters:
+Параметри:
 
-* `red`: An integer 0-255 or percentage 0-100%.
-* `green`: An integer 0-255 or percentage 0-100%.
-* `blue`: An integer 0-255 or percentage 0-100%.
+* `red`: Ціле цисло 0-255 або відсоток 0-100%.
+* `green`: Ціле цисло 0-255 або відсоток 0-100%.
+* `blue`: Ціле цисло 0-255 або відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     rgb(90, 129, 32)
 
-Output:
+Результат:
 
     #5a8120
 ###rgba
-Creates a transparent color object from decimal red, green, blue and alpha (RGBA) values.
+Створює об’єкт прозорого кольору із десяткових red, green, blue та alpha (RGBA) значень.
 
-Parameters:
+Параметри:
 
-* `red`: An integer 0-255 or percentage 0-100%.
-* `green`: An integer 0-255 or percentage 0-100%.
-* `blue`: An integer 0-255 or percentage 0-100%.
-* `alpha`: An number 0-1 or percentage 0-100%.
+* `red`: Ціле число 0-255 або відсоток 0-100%.
+* `green`: Ціле число 0-255 або відсоток 0-100%.
+* `blue`: Ціле число 0-255 або відсоток 0-100%.
+* `alpha`: Число 0-1 чи відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     rgba(90, 129, 32, 0.5)
 
-Output:
+Результат:
 
     rgba(90, 129, 32, 0.5)
 ###argb
-Creates a hex representation of a color in `#AARRGGBB` format (**NOT** `#RRGGBBAA`!).
+Створює hex зображення кольору у форматі `#AARRGGBB` (**НЕ** `#RRGGBBAA`!).
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `string`
+Повертає: `string`
 
-Example:
+Приклад:
 
     argb(rgba(90, 23, 148, 0.5));
 
-Output:
+Результат:
 
     #805a1794
 ###hsl
-Creates an opaque color object from hue, saturation and lightness (HSL) values.
+Створює об’єкт непрозорого кольору із hue, saturation та lightness (HSL) значень.
 
-Parameters:
+Параметри:
 
-* `hue`: An integer 0-360 representing degrees.
-* `saturation`: A percentage 0-100% or number 0-1.
-* `lightness`: A percentage 0-100% or number 0-1.
+* `hue`: Ціле число 0-360, градуси.
+* `saturation`: Відсоток 0-100% або число 0-1.
+* `lightness`: Відсоток 0-100% або число 0-1.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     hsl(90, 100%, 50%)
 
-Output:
+Результат:
 
     #80ff00
 	
-This is useful if you want to create a new color based on another color's channel, for example:
+Це корисно, якщо потрібно створити новий колір, базований на каналі іншого кольору, наприклад:
 
     @new: hsl(hue(@old), 45%, 90%);
 
-`@new` will have `@old`'s *hue*, and its own saturation and lightness.
+`@new` буде мати значення *hue* із `@old` і власні saturation та lightness.
 	
 ###hsla
-Creates a transparent color object from hue, saturation, lightness and alpha (HSLA) values.
+Створює об’єкт прозорого кольору із hue, saturation, lightness та alpha (HSLA) значень.
 
-Parameters:
+Параметри:
 
-* `hue`: An integer 0-360 representing degrees.
-* `saturation`: A percentage 0-100% or number 0-1.
-* `lightness`: A percentage 0-100% or number 0-1.
-* `alpha`: A percentage 0-100% or number 0-1.
+* `hue`: Ціле число 0-360, градуси.
+* `saturation`: Відсоток 0-100% або число 0-1.
+* `lightness`: Відсоток 0-100% або число 0-1.
+* `alpha`: Відсоток 0-100% або число 0-1.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     hsl(90, 100%, 50%, 0.5)
 
-Output:
+Результат:
 
     rgba(128, 255, 0, 0.5)
 ###hsv
-Creates an opaque color object from hue, saturation and value (HSV) values. Note that this is not the same as `hsl`.
+Створює об’єкт непрозорого кольору із hue, saturation та value (HSV) значень. Візьміть до уваги, що це не те ж, що і `hsl`.
 
-Parameters:
+Параметри:
 
-* `hue`: An integer 0-360 representing degrees.
-* `saturation`: A percentage 0-100% or number 0-1.
-* `value`: A percentage 0-100% or number 0-1.
+* `hue`: Ціле число 0-360, градуси.
+* `saturation`: Відсоток 0-100% або число 0-1.
+* `value`: Відсоток 0-100% або число 0-1.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     hsv(90, 100%, 50%)
 
-Output:
+Результат:
 
     #408000
 
 ###hsva
-Creates a transparent color object from hue, saturation, value and alpha (HSVA) values. Note that this is not the same as `hsla`.
+Створює об’єкт прозорого кольору із hue, saturation, value та alpha (HSVA) значень. Візьміть до уваги, що це не те ж, що і `hsla`.
 
-Parameters:
+Параметри:
 
-* `hue`: An integer 0-360 representing degrees.
-* `saturation`: A percentage 0-100% or number 0-1.
-* `value`: A percentage 0-100% or number 0-1.
-* `alpha`: A percentage 0-100% or number 0-1.
+* `hue`: Ціле число 0-360, градуси.
+* `saturation`: Відсоток 0-100% або число 0-1.
+* `value`: Відсоток 0-100% або число 0-1.
+* `alpha`: Відсоток 0-100% або число 0-1.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     hsva(90, 100%, 50%, 0.5)
 
-Output:
+Результат:
 
     rgba(64, 128, 0, 0.5)
 
-##Color channel information
+##Інформація каналу кольору
 ###hue
-Extracts the hue channel of a color object.
+Обрахувати канал hue об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `integer` 0-360
+Повертає: `ціле число` 0-360
 
-Example:
+Приклад:
 
     hue(hsl(90, 100%, 50%))
 
-Output:
+Результат:
 
     90
 ###saturation
-Extracts the saturation channel of a color object.
+Обрахувати канал saturation об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `percentage` 0-100
+Повертає: `відсотки` 0-100
 
-Example:
+Приклад:
 
     saturation(hsl(90, 100%, 50%))
 
-Output:
+Результат:
 
     100%
 ###lightness
-Extracts the lightness channel of a color object.
+Обрахувати канал lightness об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `percentage` 0-100
+Повертає: `відсотки` 0-100
 
-Example:
+Приклад:
 
     lightness(hsl(90, 100%, 50%))
 
-Output:
+Результат:
 
     50%
 ###red
-Extracts the red channel of a color object.
+Обрахувати канал red об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `integer` 0-255
+Повертає: `ціле число` 0-255
 
-Example:
+Приклад:
 
     red(rgb(10, 20, 30))
 
-Output:
+Результат:
 
     10
 ###green
-Extracts the green channel of a color object.
+Обрахувати канал green об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `integer` 0-255
+Повертає: `ціле число` 0-255
 
-Example:
+Приклад:
 
     green(rgb(10, 20, 30))
 
-Output:
+Результат:
 
     20
 ###blue
-Extracts the blue channel of a color object.
+Обрахувати канал blue об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `integer` 0-255
+Повертає: `ціле число` 0-255
 
-Example:
+Приклад:
 
     blue(rgb(10, 20, 30))
 
-Output:
+Результат:
 
     30
 ###alpha
-Extracts the alpha channel of a color object.
+Обрахувати канал alpha об’єкту кольору.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `float` 0-1
+Повертає: `дійсне число` 0-1
 
-Example:
+Приклад:
 
     alpha(rgba(10, 20, 30, 0.5))
 
-Output:
+Результат:
 
     0.5
 ###luma
-Calculates the [luma](http://en.wikipedia.org/wiki/Luma_(video)) (perceptual brightness) of a color object. Uses SMPTE C / Rec. 709 coefficients, as recommended in [WCAG 2.0](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef). This calculation is also used in the contrast function.
+Обраховує значення [luma](http://en.wikipedia.org/wiki/Luma_(video)) (сприйняття яскравості) для об’єкту кольору. Використовується SMPTE C / Rec. 709 коефіцієнти, оскільки рекомендовані [WCAG 2.0](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef). Ці розрахунки також використовуються у функції контрасту.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `percentage` 0-100%
+Повертає: `відсотки` 0-100%
 
-Example:
+Приклад:
 
     luma(rgb(100, 200, 30))
 
-Output:
+Результат:
 
     65%
-##Color operations
-Color operations generally take parameters in the same units as the values they are changing, and percentage are handled as absolutes, so increasing a 10% value by 10% results in 20%, not 11%, and values are clamped to their allowed ranges; they do not wrap around. Where return values are shown, we've also shown formats that make it clear what each function has done, in addition to the hex versions that you will usually be be working with.
+##Операції із кольором
+Функції операції із коьлором приймають параметри в одиницях виміру таких же, як і значення, 
+які вони змінюють і відотки опрацьовуються, як абсолютні значення, тобто збільшення 
+10% відсоткового значення на 10% відсотків дасть у результаті 20%, а не 11%, і значння будуть 
+у їх допустимих межах, тобто не вийдуть за рамки допустимих значень. Де вказані значання, що повертаються, 
+ми також навели формати, для того щоб прояснити, що робить кожна функція, 
+на додаток до hex варіантів, з якими, зазвичай, проводиться робота..
 ###saturate
-Increase the saturation of a color by an absolute amount.
+Збільшення насиченості кольору на абсолютне значення.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     saturate(hsl(90, 90%, 50%), 10%)
 
-Output:
+Результат:
 
     #80ff00 // hsl(90, 100%, 50%)
 
 ###desaturate
-Decrease the saturation of a color by an absolute amount.
+Зменшення насиченості кольору на абсолютне значення.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     desaturate(hsl(90, 90%, 50%), 10%)
 
-Output:
+Результат:
 
     #80e51a // hsl(90, 80%, 50%)
 ###lighten
-Increase the lightness of a color by an absolute amount.
+Збільшення яскравості кольору на абсолютне значення.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     lighten(hsl(90, 90%, 50%), 10%)
 
-Output:
+Результат:
 
     #99f53d // hsl(90, 90%, 60%)
 ###darken
-Decrease the lightness of a color by an absolute amount.
+Зменшення яскравості кольору на абсолютне значення.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     darken(hsl(90, 90%, 50%), 10%)
 
-Output:
+Результат:
 
     #66c20a // hsl(90, 90%, 40%)
 ###fadein
-Decrease the transparency (or increase the opacity) of a color, making it more opaque. Has no effect on opaque colours. To fade in the other direction use `fadeout`.
+Зменшення прозорості (чи збільшення непрозорості) кольору, зробити його більш непрозорим. 
+Не має ніякого ефекту на повністю непрозоорих кольорах. Для застосування алгоритму 
+у іншому напрямку використовуйте `fadeout`.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     fadein(hsla(90, 90%, 50%, 0.5), 10%)
 
-Output:
+Результат:
 
     rgba(128, 242, 13, 0.6) // hsla(90, 90%, 50%, 0.6)
 ###fadeout
-Increase the transparency (or decrease the opacity) of a color, making it less opaque. To fade in the other direction use `fadein`.
+Збільшення прозорості (або зменшення непрозорості) кольору, зробити його менш непрозорим. 
+Для застосування алгоритму у іншому напрямку використовуйте `fadein`.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     fadeout(hsla(90, 90%, 50%, 0.5), 10%)
 
-Output:
+Результат:
 
     rgba(128, 242, 13, 0.4) // hsla(90, 90%, 50%, 0.6)
 ###fade
-Set the absolute transparency of a color. Can be applied to colors whether they already have an opacity value or not.
+Встановити абсолютне значення прозорості лля кольору. Застосовне до кольорів, не 
+зважаючи на те чи мають вони значення прозорості, або ні.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `amount`: A percentage 0-100%.
+* `color`: Об’єкт кольору.
+* `amount`: Відсоток 0-100%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     fade(hsl(90, 90%, 50%), 10%)
 
-Output:
+Результат:
 
     rgba(128, 242, 13, 0.1) //hsla(90, 90%, 50%, 0.1)
 ###spin
-Rotate the hue angle of a color in either direction. While the angle range is 0-360, it applies a mod 360 operation, so you can pass in much larger (or negative) values and they will wrap around e.g. angles of 360 and 720 will produce the same result. Note that colours are passed through an RGB conversion, which doesn't retain hue value for greys (because hue has no meaning when there is no saturation), so make sure you apply functions in a way that preserves hue, for example don't do this:
+Повернути кут відтінку (hue) у іншому напрямку. Кут відтінку приводиться до вигляду у межах 0-360, 
+тобто кути від 360 до 720 та в межах 0-360 дадуть один і той самий результат. 
+Візьміть до уваги, що до кольорів застосовується RGB перетворення, тобто значення hue не зберігається для сірих кольорів
+(оскільки відтінок не має сенсу, якщо немає насичення), тому переконайтеся, що застосовуєте функції таким чином, щоб зберегти відтінок,
+наприкад, не робіть наступним чином:
 
     @c: saturate(spin(#aaaaaa, 10), 10%);
 
-Do this instead:
+Правильно:
 
     @c: spin(saturate(#aaaaaa, 10%), 10);
 	
-Colors are always returned as RGB values, so applying `spin` to a grey value will do nothing.
+Кольори завжди повертаються, як RGB значення, тому застосування `spin` до сірого кольору не дасть результату.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
-* `angle`: A number of degrees to rotate (+ or -).
+* `color`: Об’єкт кольору.
+* `angle`: Кількість градусів для повороту (+ or -).
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     spin(hsl(10, 90%, 50%), 20)
     spin(hsl(10, 90%, 50%), -20)
 
-Output:
+Результат:
 
     #f27f0d // hsl(30, 90%, 50%)
     #f20d33 // hsl(350, 90%, 50%)
 ###mix
-Mix two colors together in variable proportion. Opacity is included in the calculations.
+Змішати два кольори разом, пропорційно. Прозорість також обраховується за пропорціями.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object.
-* `color1`: A color object.
-* `weight`: Optional, a percentage balance point between the two colors, defaults to 50%.
+* `color1`: Об’єкт кольору.
+* `color1`: Об’єкт кольору.
+* `weight`: Опціонально, Відсоток - точка балансу між двома кольорами, за замовчуванням 50%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     mix(#ff0000, #0000ff, 50%)
     mix(rgba(100,0,0,1.0), rgba(0,100,0,0.5), 50%)
 
-Output:
+Результат:
 
     #800080
     rgba(75, 25, 0, 0.75)
 ###greyscale
 Remove all saturation from a color; the same as calling `desaturate(@color, 100%)`. Because the saturation is not affected by hue, the resulting color mapping may be somewhat dull or muddy; `luma` may provide a better result as it extracts perceptual rather than linear brightness, for example `greyscale('#0000ff')` will return the same value as `greyscale('#00ff00')`, though they appear quite different in brightness to the human eye.
 
-Parameters:
+Параметри:
 
-* `color`: A color object.
+* `color`: Об’єкт кольору.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     greyscale(hsl(90, 90%, 50%))
 
-Output:
+Результат:
 
     #808080 // hsl(90, 0%, 50%)
 ###contrast
 Choose which of two colors provides the greatest contrast with another. This is useful for ensuring that a color is readable against a background, which is also useful for accessibility compliance. This function works the same way as the [contrast function in Compass for SASS](http://compass-style.org/reference/compass/utilities/color/contrast/). In accordance with [WCAG 2.0](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef), colors are compared using their luma value, not their lightness.
 
-Parameters:
+Параметри:
 
-* `color`: A color object to compare against.
+* `color`: Об’єкт кольору to compare against.
 * `dark`: optional - A designated dark color (defaults to black).
 * `light`: optional - A designated light color (defaults to white).
-* `threshold`: optional - A percentage 0-100% specifying where the transition from "dark" to "light" is (defaults to 43%). This is used to bias the contrast one way or another, for example to allow you to decide whether a 50% grey background should result in black or white text. You would generally set this lower for 'lighter' palettes, higher for 'darker' ones. Defaults to 43%.
+* `threshold`: optional - Відсоток 0-100% specifying where the transition from "dark" to "light" is (defaults to 43%). This is used to bias the contrast one way or another, for example to allow you to decide whether a 50% grey background should result in black or white text. You would generally set this lower for 'lighter' palettes, higher for 'darker' ones. Defaults to 43%.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     contrast(#aaaaaa)
     contrast(#222222, #101010)
@@ -714,7 +740,7 @@ Example:
     contrast(hsl(90, 100%, 50%),#000000,#ffffff,40%);
     contrast(hsl(90, 100%, 50%),#000000,#ffffff,60%);
 
-Output:
+Результат:
 
     #000000 // black
     #ffffff // white
@@ -728,12 +754,12 @@ These operations are _similar_ as the blend modes found in image editors like Ph
 ###multiply
 Multiply two colors. For each two colors their RGB channel are multiplied then divided by 255. The result is a darker color.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to multiply against.
-* `color2`: A color object to multiply against.
+* `color1`: Об’єкт кольору to multiply against.
+* `color2`: Об’єкт кольору to multiply against.
 
-Returns: `color`
+Повертає: `колір`
 
 Examples:
 
@@ -794,14 +820,14 @@ Examples:
 ###screen
 Do the opposite effect from `multiply`. The result is a brighter color.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to _screen_ against.
-* `color2`: A color object to _screen_ against.
+* `color1`: Об’єкт кольору to _screen_ against.
+* `color2`: Об’єкт кольору to _screen_ against.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     screen(#ff6600, #000000);
 
@@ -860,14 +886,14 @@ Example:
 ###overlay
 Combines the effect from both `multiply` and `screen`. Conditionally make light channels lighter and dark channels darker. **Note**: The results of the conditions are determined by the first color parameter.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to overlay another. Also it is the determinant color to make the result lighter or darker.
-* `color2`: A color object to be _overlayed_.
+* `color1`: Об’єкт кольору to overlay another. Also it is the determinant color to make the result lighter or darker.
+* `color2`: Об’єкт кольору to be _overlayed_.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     overlay(#ff6600, #000000);
 
@@ -926,14 +952,14 @@ Example:
 ###softlight
 Similar to `overlay` but avoid pure black resulting in pure black, and pure white resulting in pure white.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to _soft light_ another.
-* `color2`: A color object to be _soft lighten_.
+* `color1`: Об’єкт кольору to _soft light_ another.
+* `color2`: Об’єкт кольору to be _soft lighten_.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     softlight(#ff6600, #000000);
 
@@ -992,14 +1018,14 @@ Example:
 ###hardlight
 Similar to `overlay` but use the second color to detect light and dark channels instead of using the first color.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to overlay another.
-* `color2`: A color object to be _overlayed_. Also it is the determinant color to make the result lighter or darker.
+* `color1`: Об’єкт кольору to overlay another.
+* `color2`: Об’єкт кольору to be _overlayed_. Also it is the determinant color to make the result lighter or darker.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     hardlight(#ff6600, #000000);
 
@@ -1058,14 +1084,14 @@ Example:
 ###difference
 Substracts the second color from the first color. The operation is made per RGB channels. The result is a darker color.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to act as the minuend.
-* `color2`: A color object to act as the subtrahend.
+* `color1`: Об’єкт кольору to act as the minuend.
+* `color2`: Об’єкт кольору to act as the subtrahend.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     difference(#ff6600, #000000);
 
@@ -1124,14 +1150,14 @@ Example:
 ###exclusion
 Similar effect to `difference` with lower contrast.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to act as the minuend.
-* `color2`: A color object to act as the subtrahend.
+* `color1`: Об’єкт кольору to act as the minuend.
+* `color2`: Об’єкт кольору to act as the subtrahend.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     exclusion(#ff6600, #000000);
 
@@ -1190,14 +1216,14 @@ Example:
 ###average
 Compute the average of two colors. The operation is made per RGB channels.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object.
-* `color2`: A color object.
+* `color1`: Об’єкт кольору.
+* `color2`: Об’єкт кольору.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     average(#ff6600, #000000);
 
@@ -1256,14 +1282,14 @@ Example:
 ###negation
 Do the opposite effect from `difference`. The result is a brighter color. **Note**: The _opposite_ effect doesn't mean the _inverted_ effect as resulting to an _addition_ operation.
 
-Parameters:
+Параметри:
 
-* `color1`: A color object to act as the minuend.
-* `color2`: A color object to act as the subtrahend.
+* `color1`: Об’єкт кольору to act as the minuend.
+* `color2`: Об’єкт кольору to act as the subtrahend.
 
-Returns: `color`
+Повертає: `колір`
 
-Example:
+Приклад:
 
     negation(#ff6600, #000000);
 
