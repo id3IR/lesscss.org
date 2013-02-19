@@ -83,7 +83,7 @@ strong { font-weight: bold; }
   height: 81px;
   left: -15px;
   top: 23px;
-  background: url(images/logo.png) no-repeat;
+  background: url(../images/logo.png) no-repeat;
 }
 #navigation {
   position: absolute;
