@@ -1,4 +1,4 @@
-#Index
+#Індекс
 
 	escape(@string);               // URL кодування рядку
 	e(@string);                    // екранування вмісту рядка
@@ -53,7 +53,7 @@
 	average(@color1, @color2);
 	negation(@color1, @color2);
 	
-#Рядкові функції
+#Функції роботи із текстом
 ###escape
 
 Застосовує [URL-кодування](http://en.wikipedia.org/wiki/Percent-encoding) до спеціальний символів у вхідному рядку. 

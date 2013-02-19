@@ -1,88 +1,94 @@
-Client-side usage
-=================
+Використання на клієнті
+=======================
 
-Client-side is the easiest way to get started and good for developing your less. For production and especially 
-if performance is important, we recommend pre-compiling using node or one of the many third party tools.
+Клієнт-сайд - найлегший шлях для того, щоб почати використовувати LESS і хороший 
+спосіб розробки. Для готових продуктів, особливо з точки зору швидкодії, ми 
+рекомендуємо попередньо скомпілювати LESS код, використовуючи node чи одну із 
+багатоьх інших утиліт.
 
-Link your `.less` stylesheets with the `rel` set to "`stylesheet/less`":
+Вставте вашу таблицю стилів з допомогою тегу link і встановіть його значення `rel` 
+як "`stylesheet/less`":
 
     <link rel="stylesheet/less" type="text/css" href="styles.less" />
 
-Then download `less.js` from the top of the page, and include it in the `<head>` element of your page, like so:
+Потім завантажте `less.js` (вгорі цієї сторінки є посилання) та вставте всередині 
+елементу `<head>` вашої сторінки, для прикладу:
 
     <script src="less.js" type="text/javascript"></script>
 
-Make sure you include your stylesheets *before* the script.
+Впевніться, що ви вставили ваші стилі LESS *до того*, як пыдключили скрипт.
 
-You can set options by setting things on a global less object before the script. E.g.
+Ви можете встановити опції LESS, як параметри глобального об’єкту less, до 
+підключення скрипта. Напр.:
 
     <script type="text/javascript">
 	    less = {
-			env: "development", // or "production"
-			async: false,		// load imports async
-			fileAsync: false,   // load imports async when in a page under 
-								// a file protocol
-			poll: 1000,			// when in watch mode, time in ms between polls
-			functions: {},		// user functions, keyed by name
-			dumpLineNumbers: "comments", // or "mediaQuery" or "all"
-			relativeUrls: false,// whether to adjust url's to be relative
-								// if false, url's are already relative to the
-								// entry less file
-			rootpath: ":/a.com/"// a path to add on to the start of every url 
+			env: "development", // чи "production"
+			async: false,		// завантажувати @import'и асинхронно
+			fileAsync: false,   // завантажувати @import'и асинхронно тільки на сторінці, 
+								// чи по протоколу file
+			poll: 1000,			// під час режиму спостереження (watch mode), час в мілісекундах між запитами на сервер
+			functions: {},		// користувацькі функції, ключі об’єкта == імена функцій
+			dumpLineNumbers: "comments", // або "mediaQuery" або "all"
+			relativeUrls: false,// чи відносні url'и
+								// якщо false, url'и завчасно відносні до всього 
+								// less файлу
+			rootpath: ":/a.com/"// шлях, котрий буде додано на початок кожного url 
 								//resource
 		};
 	</script>
     <script src="less.js" type="text/javascript"></script>
 
-Watch mode
-----------
+Режим спостереження
+-------------------
 
-*Watch mode* is a client-side feature which enables your styles to refresh automatically as they are changed.
+*Режим спостереження* це клієнь-сайд функціонал, режим, за якого ваші стилі 
+автоматично оновлюватимуться, якщо вони були змінені.
 
-To enable it, append '`#!watch`' to the browser URL, then refresh the page. Alternatively, you can
-run `less.watch()` from the console.
+Для того, щоб увімкнути цей режим, додайте '`#!watch`' до URL у браузері та оновіть сторінку.
+Також, замість цього, можна запустити `less.watch()` із консолі.
 
-Debugging
----------
+Налагодження
+-------------
 
-It is possible to output rules in your css which allow tools to locate the source of the rule.
+Також можна виводити правила безпосередньо в CSS, що дозволить виявляти їх місцезнаходження в сирцях.
 
-Either specify the option `dumpLineNumbers` as above or add `!dumpLineNumbers:mediaQuery` to the url.
+Вкажіть опцію `dumpLineNumbers` як вказано вище, або додайте `!dumpLineNumbers:mediaQuery` до адреси url.
 
-You can use the "comments" option with [FireLESS](https://addons.mozilla.org/en-us/firefox/addon/fireless/) and 
-the "mediaQuery" option with FireBug/Chrome dev tools (it is identical to the SCSS media query debugging format).
+Ви можете використовувати опцію "comments" із [FireLESS](https://addons.mozilla.org/en-us/firefox/addon/fireless/) 
+і опцію "mediaQuery" із засобами для розробників у FireBug/Chrome (так само, як і в налагодженні SCSS media query).
 
-Server-side usage
-=================
+Використання на стороні сервера
+===============================
 
-Installation
+Встановлення
 ------------
 
-The easiest way to install LESS on the server, is via [npm](http://github.com/isaacs/npm), the node package manager, as so:
+Найлегше встановити LESS на сервері з допомогою [npm](http://github.com/isaacs/npm), менеджера пакетів node, наприклад:
 
     $ npm install -g less
 	
-Command-line usage
-------------------
+Використання у командному рядку
+-------------------------------
 
-Once installed, you can invoke the compiler from the command-line, as such:
+Після встановлення можна запустити компілятор із командного рядка наступним чином:
 
     $ lessc styles.less
 
-This will output the compiled CSS to `stdout`, you may then redirect it to a file of your choice:
+Скомпільований CSS виведеться до `stdout` і ви можете перенаправити вивід до файлу на ваш вибір:
 
     $ lessc styles.less > styles.css
 
-To output minified CSS, simply pass the `-x` option. If you would like more involved minification,
-the [YUI CSS Compressor](http://developer.yahoo.com/yui/compressor/css.html) is also available with
-the `--yui-compress` option.
+Для виведення мініфікованого CSS просто запустіть команду із опціїю `-x`. Якщо вам 
+подобається більш складна мініфікація, [YUI CSS Compressor](http://developer.yahoo.com/yui/compressor/css.html) 
+також доступний через опцію `--yui-compress`.
 
-To see all the command line options run lessc without parameters.
+Для того, щоб переглянути всі опції командного рядка запустіть lessc без параметрів.
 
-Usage in Code
--------------
+Використання у коді
+-------------------
 
-You can invoke the compiler from node, as such:
+Ви можете запустити компілятор в node наступним чином:
 
     var less = require('less');
 
@@ -90,13 +96,13 @@ You can invoke the compiler from node, as such:
         console.log(css);
     });
 
-which will output
+що виведе
 
     .class {
       width: 2;
     }
 
-you may also manually invoke the parser and compiler:
+можна також вручну запустити парсер та компілятор:
 
     var parser = new(less.Parser);
 
@@ -105,25 +111,25 @@ you may also manually invoke the parser and compiler:
         console.log(tree.toCSS());
     });
 
-Configuration
+Налаштування
 -------------
 
-You may pass some options to the compiler:
+Ви можете передати деякі опції компілятору:
 
     var parser = new(less.Parser)({
-        paths: ['.', './lib'], // Specify search paths for @import directives
-        filename: 'style.less' // Specify a filename, for better error messages
+        paths: ['.', './lib'], // Вказати шляхи пошуку для директив @import
+        filename: 'style.less' // Вказати назву файлу, для кращий повідомлень про помилки
     });
 
     parser.parse('.class { width: (1 + 1) }', function (e, tree) {
-        tree.toCSS({ compress: true }); // Minify CSS output
+        tree.toCSS({ compress: true }); // мініфікувати вивід CSS
     });
 
-Third Party Tools
+Сторонні утиліти
 -----------------
 
-There are a selection of tools available to run in your particular environment and these are documented in the github wiki.
+Існуює декілька засобів, доступних для роботи в конкретному середовищі і вони задокументовані у wiki на github.
 
-<a href="https://github.com/cloudhead/less.js/wiki/Command-Line-use-of-LESS">Command Line Tools</a>
+<a href="https://github.com/cloudhead/less.js/wiki/Command-Line-use-of-LESS">Засоби командного рядка</a>
 
-<a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI Tools</a>
+<a href="https://github.com/cloudhead/less.js/wiki/GUI-compilers-that-use-LESS.js">GUI утиліти</a>
