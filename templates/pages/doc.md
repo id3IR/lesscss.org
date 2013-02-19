@@ -1,30 +1,34 @@
-As an extension to CSS, LESS is not only backwards compatible with CSS, but the extra features it adds use <em>existing</em> CSS syntax. This makes learning LESS a <em>breeze</em>, and if in doubt, lets you fall back to CSS.
 
-Variables
+Оскільки LESS є розширенням до CSS, бібліотека не тільки зворотньо сумісна із CSS, 
+але й використовує <em>існуючий синтакс</em>. Це дозволяє <em>напрочуд легко</em> 
+вивчати LESS і, в разі сумнівів, повернутися до використання CSS.
+
+Змінні
 ---------
 
-These are pretty self-explanatory:
+Використання досить очевидне і не потребує пояснень:
 
     @nice-blue: #5B83AD;
-    @light-blue: (@nice-blue + #111);
+    @light-blue: @nice-blue + #111;
 
     #header { color: @light-blue; }
 
-Outputs:
+Згенерується:
 
     #header { color: #6c94be; }
 
-It is also possible to define variables with a variable name:
+Також можна використовувати в якості імені змінної значення іншої змінної:
 
     @fnord: "I am fnord.";
     @var: 'fnord';
     content: @@var;
 
-Which compiles to:
+Що скомпілюється в:
 
     content: "I am fnord.";
 
-When defining a variable twice, the last definition of the variable is used, searching from the current scope upwards. For instance:
+Якщо оголосити змінну двічі, буде використовуватися останнє оголошення (пошук 
+із поточної області видимості і вверх). Наприклад:
 
 	@var: 0;
 	.class1
@@ -37,7 +41,7 @@ When defining a variable twice, the last definition of the variable is used, sea
 	  one: @var;
 	}
 
-Compiles to:
+Скомпілюється в:
 
     .class1 .class {
 	  three: 3;
@@ -46,20 +50,22 @@ Compiles to:
 	  one: 1;
 	}
 
-This is similar to css itself where the last property inside a definition is used to determine the value.
+Це, власне, подібно до css, де використовується значення із останнього по порядку 
+оголошення.
 
-Mixins
-------
+Домішки
+-------
 
-In LESS, it is possible to include a bunch of properties from one ruleset into another ruleset. So say we have the following class:
+В LESS можливо включати в правила набір властивостей із інших правил. Скажімо, 
+ми маємо наступний клас:
 
     .bordered {
       border-top: dotted 1px black;
       border-bottom: solid 2px black;
     }
 
-And we want to use these properties inside other rulesets. Well, we just have to drop in the name of
-the class in any ruleset we want to include its properties, like so:
+І хочемо використати ці властивості в іншому правилі. Для цього нам всього лиш 
+потрібно вказати назву класу всередині блоку правила, наприклад:
 
     #menu a {
       color: #111;
@@ -70,7 +76,7 @@ the class in any ruleset we want to include its properties, like so:
       .bordered;
     }
 
-The properties of the `.bordered` class will now appear in both `#menu a` and `.post a`:
+Властивості класу `.bordered` тепер з’являться в обох правилах `#menu a` та `.post a`:
 
     #menu a {
       color: #111;
@@ -83,14 +89,16 @@ The properties of the `.bordered` class will now appear in both `#menu a` and `.
       border-bottom: solid 2px black;
     }
 
-Any CSS *class* or *id* ruleset can be mixed-in that way.
+Будь-який CSS *class* чи *id* може бути "підмішаний" таким чином.
 
-Note: Variables are also mixed in, so variables from a mixin will be placed into the current scope. This is contentious and may change in the future.
+На замітку: Змінні можуть також підмішуватися, відтак змінні із домішки будуть 
+досутпні в поточній області видимості. Це спірно і може бути змінено в майбутньому.
 
-Parametric Mixins
+Домішки з параметрами
 -----------------
 
-LESS has a special type of ruleset which can be mixed in like classes, but accepts parameters. Here's the canonical example:
+LESS має спеціальний тип правил, котрі можуть ’підмішуватися’ як класи, але приймають 
+параметри. Ось показний приклад:
 
     .border-radius (@radius) {
       border-radius: @radius;
@@ -98,7 +106,7 @@ LESS has a special type of ruleset which can be mixed in like classes, but accep
       -webkit-border-radius: @radius;
     }
 
-And here's how we can mix it into various rulesets:
+Ось так ми можемо підмішати властивості до правил:
 
     #header {
       .border-radius(4px);
@@ -107,7 +115,7 @@ And here's how we can mix it into various rulesets:
       .border-radius(6px);
     }
 
-Parametric mixins can also have default values for their parameters:
+Параметризовані домішки можуть, також, оголошуватися із параметрами ’за замовчуванням’:
 
     .border-radius (@radius: 5px) {
       border-radius: @radius;
@@ -115,16 +123,17 @@ Parametric mixins can also have default values for their parameters:
       -webkit-border-radius: @radius;
     }
 
-We can invoke it like this now:
+Тепер їх можна викликати наступним чином:
 
     #header {
       .border-radius;
     }
 
-And it will include a 5px border-radius.
+І таким чином підключиться 5px border із радіусом 5px.
 
-You can also use parametric mixins which don't take parameters. This is useful if you want to hide the ruleset from the CSS output,
-but want to include its properties in other rulesets:
+Також можна використовувати параметризовані домішки, котрі не приймають параметрів. 
+Це корисно, якщо ви хочете, щоб правила, які описує mixin не відображлися у 
+результуючому CSS, але хочете, також, використовувати властивості всередині інших правил:
 
     .wrap () {
       text-wrap: wrap;
@@ -135,7 +144,7 @@ but want to include its properties in other rulesets:
 
     pre { .wrap }
 
-Which would output:
+Вивід CSS:
 
     pre {
       text-wrap: wrap;
@@ -144,10 +153,11 @@ Which would output:
       word-wrap: break-word;
     }
 
-### The `@arguments` variable
+### Змінна `@arguments`
 
-`@arguments` has a special meaning inside mixins, it contains all the arguments passed, when the mixin was called. This is useful
-if you don't want to deal with individual parameters:
+`@arguments` має спеціальне значення всередині домішок, змінна містить всі 
+передані при виклику mixin'а аргументи. Це корисно, коли потрібно використовувати 
+разом передані параметри:
 
     .box-shadow (@x: 0, @y: 0, @blur: 1px, @color: #000) {
       box-shadow: @arguments;
@@ -156,34 +166,34 @@ if you don't want to deal with individual parameters:
     }
     .box-shadow(2px, 5px);
 
-Which results in:
+Виведе:
 
       box-shadow: 2px 5px 1px #000;
       -moz-box-shadow: 2px 5px 1px #000;
       -webkit-box-shadow: 2px 5px 1px #000;
 
-### Advanced arguments and the `@rest` variable
+### Розширені аргументи та змінна `@rest`
 
-You can use `...` if you want your mixin to take a variable number of arguments. Using this after a variable name will assign those arguments to the variable.
+Ви можете використовувати `...` якщо ваша домішка може мати змінну кількість аргументів. 
+Якщо вказати три крапки після імені змінної, то аргументи будуть занесені в цю змінну.
 
-    .mixin (...) {        // matches 0-N arguments
-    .mixin () {           // matches exactly 0 arguments
-    .mixin (@a: 1) {      // matches 0-1 arguments
-    .mixin (@a: 1, ...) { // matches 0-N arguments
-    .mixin (@a, ...) {    // matches 1-N arguments
+    .mixin (...) {        // 0-N аргументів
+    .mixin () {           // рівно 0 аргументів
+    .mixin (@a: 1) {      // 0-1 аргументів
+    .mixin (@a: 1, ...) { // 0-N аргументів
+    .mixin (@a, ...) {    // 1-N аргументів
 
-Furthermore:
+Крім того:
 
     .mixin (@a, @rest...) {
-       // @rest is bound to arguments after @a
-       // @arguments is bound to all arguments
+       // в @rest занесуться аргументи після @a
+       // в @arguments будуть всі аргументи
     }
 
-## Pattern-matching and Guard expressions
+## Шаблони домішок та захисні обмеження
 
-Sometimes, you may want to change the behaviour of a mixin,
-based on the parameters you pass to it. Let's start with something
-basic:
+Інколи потрібно змінити поведінку домішки, в залежності від переданих параметрів. 
+Розпочнемо із простого:
 
     .mixin (@s, @color) { ... }
 
@@ -191,8 +201,8 @@ basic:
       .mixin(@switch, #888);
     }
 
-Now let's say we want `.mixin` to behave differently, based on the value of `@switch`,
-we could define `.mixin` as such:
+Тепер, скажімо, нам потрібно щоб `.mixin` працював інакше, в залежності від значення 
+параметру `@switch`. Для цього можна оголосити `.mixin` наступним чином:
 
     .mixin (dark, @color) {
       color: darken(@color, 10%);
@@ -204,7 +214,7 @@ we could define `.mixin` as such:
       display: block;
     }
 
-Now, if we run:
+Тепер, якщо ми скомпілюємо
 
     @switch: light;
 
@@ -212,26 +222,26 @@ Now, if we run:
       .mixin(@switch, #888);
     }
 
-We will get the following CSS:
+Результуючий CSS виглядатиме так:
 
     .class {
       color: #a2a2a2;
       display: block;
     }
 
-Where the color passed to `.mixin` was lightened. If the value of `@switch` was `dark`,
-the result would be a darker color.
+Де колір, переданий у `.mixin` перетворюється у світліший. Якщо значення `@switch` буде `dark`,
+результатом буде темніший колір.
 
-Here's what happened:
+Ось як працює таке ’перевантаження’:
 
-- The first mixin definition didn't match because it expected `dark` as the first argument.
-- The second mixin definition matched, because it expected `light`.
-- The third mixin definition matched because it expected any value.
+- Перша домішка не підходить, оскільки значення її першого аргументу повинне бути `dark`.
+- Друга домішка підходить, оскільки приймає першим аргументом `light`.
+- Третя домішка також підходить, оскільки її приймає довільні значення аргументів.
 
-Only mixin definitions which matched were used. Variables match and bind to any value.
-Anything other than a variable matches only with a value equal to itself.
+Використовуються лише ті домішки, котрі підходять. Змінні можуть співпадати і 
+прив’язуватися до будь-якого значення. Все, що не є змінною, дає співпадіння, якщо дорівнює самому собі.
 
-We can also match on arity, here's an example:
+Можна також порівнювати арність, як приклад:
 
     .mixin (@a) {
       color: @a;
@@ -240,19 +250,20 @@ We can also match on arity, here's an example:
       color: fade(@a, @b);
     }
 
-Now if we call `.mixin` with a single argument, we will get the output of the first definition,
-but if we call it with *two* arguments, we will get the second definition, namely `@a` faded to `@b`.
+Якщо тепер викликати `.mixin` з одним аргументом, отримаємо вивід першої домішки,
+але якщо передати *два* аргументи, виведеться результат виконання другої домішки.
 
-### Guards
+### Обмеження допустимих параметрів
 
-Guards are useful when you want to match on *expressions*, as opposed to simple values or arity. If you are
-familiar with functional programming, you have probably encountered them already.
+Обмеження корисні, якщо потрібно порівнювати параметри із *виразами*, а не 
+простими значеннями чи арністю. Якщо ви знайомі з фенкціональним програмуванням, 
+то, певне, вже зустрічалися із подібними конструкціями.
 
-In trying to stay as close as possible to the declarative nature of CSS, LESS has opted to implement
-conditional execution via **guarded mixins** instead of if/else statements, in the vein of `@media`
-query feature specifications.
+Намагачись максимально відповідати декларативності CSS, LESS реалізує механізм 
+умов через **запобіжні домішки** (на перевагу if/else операторам),  в стилі 
+специфікації `@media` query.
 
-Let's start with an example:
+Наприклад:
 
     .mixin (@a) when (lightness(@a) >= 50%) {
       background-color: black;
@@ -264,14 +275,14 @@ Let's start with an example:
       color: @a;
     }
 
-The key is the **`when`** keyword, which introduces a guard sequence (here with only one guard). Now if we run the following
-code:
+Ключовим є вказання оператора **`when`**, котрий описує запобіжний вираз (в даному 
+прикладі лише з однією умовою). Тому, якщо запустимо наступний код:
 
     .class1 { .mixin(#ddd) }
     .class2 { .mixin(#555) }
 
 
-Here's what we'll get:
+Отримаємо:
 
     .class1 {
       background-color: black;
@@ -282,24 +293,26 @@ Here's what we'll get:
       color: #555;
     }
 
-The full list of comparison operators usable in guards are: **`> >= = =< <`**. Additionally, the keyword `true`
-is the only truthy value, making these two mixins equivalent:
+Повний список операторів порівняння, що використовуються в запобіжних умовах: 
+**`> >= = =< <`**. Додатково, ключове слово `true` означає булеву істину, 
+тому ці дві домішки еквівалентні:
 
     .truth (@a) when (@a) { ... }
     .truth (@a) when (@a = true) { ... }
 
-Any value other than the keyword `true` is falsy:
+Будь яке значення, відмінне від ключового `true` є булева хибність:
 
     .class {
-      .truth(40); // Will not match any of the above definitions.
+      .truth(40); // Не спрацює жодна із вещенаведених домішок.
     }
 
-Guards can be separated with a comma '`,`'--if any of the guards evaluates to true, it's
-considered as a match:
+Умови можуть бути розділені комами '`,`' -- якщо одна із умов справдиться, 
+домішка виконується:
 
     .mixin (@a) when (@a > 10), (@a < -10) { ... }
 
-Note that you can also compare arguments with each other, or with non-arguments:
+Зверніть увагу, що ви також можете порівнювати аргументи один з одним, або із 
+не-аргументами:
 
     @media: mobile;
 
@@ -309,12 +322,13 @@ Note that you can also compare arguments with each other, or with non-arguments:
     .max (@a, @b) when (@a > @b) { width: @a }
     .max (@a, @b) when (@a < @b) { width: @b }
 
-Lastly, if you want to match mixins based on value type, you can use the *is\** functions:
+Нарешті, якщо ви хочете використовувати умови, базовані на типі змінної, можна 
+використовувати функції вигляду *is\**:
 
     .mixin (@a, @b: 0) when (isnumber(@b)) { ... }
     .mixin (@a, @b: black) when (iscolor(@b)) { ... }
 
-Here are the basic type checking functions:
+Ось базові функції перевірки типу:
 
 - `iscolor`
 - `isnumber`
@@ -322,25 +336,26 @@ Here are the basic type checking functions:
 - `iskeyword`
 - `isurl`
 
-If you want to check if a value, in addition to being a number, is in a specific unit, you may use one of:
+Якщо необхідно перевірити, що значення є не тільки числом, але і належить до 
+певного натурального типу можна використовувати функції:
 
 - `ispixel`
 - `ispercentage`
 - `isem`
 
-Last but not least, you may use the **`and`** keyword to provide additional conditions inside a guard:
+Також можна використовувати ключове слово **`and`** для вказування додаткових обмежень всередині умови:
 
     .mixin (@a) when (isnumber(@a)) and (@a > 0) { ... }
 
-And the **`not`** keyword to negate conditions:
+І слово **`not`** для заперечення:
 
     .mixin (@b) when not (@b > 0) { ... }
 
-Nested rules
-------------
+Вкладені правила
+----------------
 
-LESS gives you the ability to use *nesting* instead of, or in combination with cascading.
-Lets say we have the following CSS:
+LESS надає можливість викоистовувати вкладення замість або разом із каскадуванням.
+Припустимо, маємо наступний CSS:
 
     #header { color: black; }
     #header .navigation {
@@ -353,7 +368,7 @@ Lets say we have the following CSS:
       text-decoration: none;
     }
 
-In LESS, we can also write it this way:
+В LESS, можна також записати його наступним чином:
 
     #header {
       color: black;
@@ -367,7 +382,7 @@ In LESS, we can also write it this way:
       }
     }
 
-Or this way:
+Або так:
 
     #header        { color: black;
       .navigation  { font-size: 12px }
@@ -376,12 +391,14 @@ Or this way:
       }
     }
 
-The resulting code is more concise, and mimics the structure of your `DOM tree`.
+Як результат, коду менше і він повторює структуру `дерева DOM`.
 
-Notice the `&` combinator--it's used when you want a nested selector to be concatenated to its parent selector, instead
-of acting as a descendant. This is especially important for pseudo-classes like `:hover` and `:focus`.
+Зверніть увагу на елемент `&` -- він використовується у випадку, коли вкладений 
+селектор потрібно сконкатевувати із батьківським, замість того, щоб 
+використовувати його безпосередньо, як вкладений. Це особливо корисно при використанні 
+псевдокласів, як то `:hover` та `:focus`.
 
-For example:
+Для прикладу:
 
     .bordered {
       &.float {
@@ -392,7 +409,7 @@ For example:
       }
     }
 
-Will output
+Виведе:
 
     .bordered.float {
       float: left;
@@ -401,10 +418,11 @@ Will output
       margin: 5px;
     }
 
-Nested Media Queries
+
+Вкладені Media Queries
 --------------------
 
-Media queries can be nested in the same way as selectors e.g.
+Media queries можуть бути вкладеними, так як і селектори, наприклад:
 
     .one {
 	    @media (width: 400px) {
@@ -415,7 +433,7 @@ Media queries can be nested in the same way as selectors e.g.
 		}
 	}
 
-Will output
+Виведе
 
 	@media (width: 400px) {
 	  .one {
@@ -428,12 +446,13 @@ Will output
 	  }
 	}
 	
-Advanced Usage of &
+Використання &
 -------------------
 
-The & symbol can be used in selectors in order to reverse the ordering of the nesting and to multiply classes.
+Символ & можна використовувати у селекторах для того, щоб змінювати (інвертувати) 
+порядок вкладеності та для "помноження" класів.
 
-For example:
+Наприклад:
 
     .child, .sibling {
 	    .parent & {
@@ -444,7 +463,7 @@ For example:
 		}
 	}
 	
-Will output
+Виведе
 
     .parent .child,
     .parent .sibling {
@@ -457,13 +476,14 @@ Will output
 	    color: red;
 	}
 	
-You can also use & in mixins in order to reference nesting that is outside of your mixin.
+Ви, також, можете використовувати & в домішках, щоб посилатися на інші домішки, 
+які знаходяться поза межами вашої.
 
-Operations
-----------
+Операції
+--------
 
-Any number, color or variable can be operated on. Operations should be performed
-within parentheses. Here are a couple of examples:
+З будь-яким числом, кольором чи змінною можна проводити математичні операції. 
+Ось декілька прикладів:
 
     @base: 5%;
     @filler: (@base * 2);
@@ -473,25 +493,27 @@ within parentheses. Here are a couple of examples:
     background-color: (@base-color + #111);
     height: (100% / 2 + @filler);
 
-The output is pretty much what you expect—LESS understands the difference between colors and units. If a unit is used in an operation, like in:
+Результат обрахунків доволі очікуваний — LESS розуміє різницю міє значеннями 
+кольорів та іншими одиницями виміру. Якщо використовувати одиниці виміру 
+у подібних наступній операціях:
 
     @var: (1px + 5);
 
-LESS will use that unit for the final output—`6px` in this case.
+LESS використовуватиме для результату вказану одиницю виміру, у даному прикладі — `6px`.
 
-Extra parentheses are also authorized in operations:
+Дужки також дозволяються в операціях:
 
     width: ((@var + 5) * 2);
 
-Functions
+Функції
 ---------
 
-LESS provides a variety of functions which transform colors, manipulate strings and do maths. 
-They are documented fully in the function reference.
+LESS також має декілька функцій для перетворення кольорів, маніпулювання рядками і виконання математичних операцій. 
+Вони докладно задокументовані у розділі функцій.
 
-Using them is pretty straightforward. The following example uses percentage to convert 0.5 to 50%, 
-increases the saturation of a base color by 5% and then sets the background color to one that is lightened by
-25% and spun by 8 degrees:
+Використання доволі очевидне. У наступному прикладі використовується percentage для 
+перетворення 0.5 в 50%, збельшення насиченості (saturation) базового кольору на 5% 
+а потім встановлення кольору фону у підсвічений на 25% і повернутий на 8 градусів:
 
     @base: #f04615;
 	@width: 0.5;
@@ -502,11 +524,13 @@ increases the saturation of a base color by 5% and then sets the background colo
       background-color: spin(lighten(@base, 25%), 8);
     }
 
-Namespaces
-----------
+Простори імен
+-------------
 
-Sometimes, you may want to group your variables or mixins, for organizational purposes, or just to offer some encapsulation.
-You can do this pretty intuitively in LESS—say you want to bundle some mixins and variables under `#bundle`, for later re-use, or for distributing:
+Інколи, з метою організації, чи просто для інкапсуляції, виникає потреба 
+згрупувати змінні чи домішки. Це робиться доволі інтуїтивно в LESS — скажімо, 
+ви хочете об’єдняти ряд домішок та змінних в блоці `#bundle` для повторного 
+використання, або розповсюдження:
 
     #bundle {
       .button () {
@@ -519,18 +543,20 @@ You can do this pretty intuitively in LESS—say you want to bundle some mixins 
       .citation { ... }
     }
 
-Now if we want to mixin the `.button` class in our `#header a`, we can do:
+Тепер, якщо потрібно ’змішати’ клас `.button` із `#header a`, можна записати 
+це так:
 
     #header a {
       color: orange;
       #bundle > .button;
     }
 
-Scope
------
+Область видимості
+-----------------
 
-Scope in LESS is very similar to that of programming languages. Variables and mixins are first looked up locally,
-and if they aren't found, the compiler will look in the parent scope, and so on.
+Зони видимості в LESS дуже схожі із іншими мовами програмування. Змінні та 
+домішки спочатку шукаються в локальній області видимості і якщо не знаходяться, 
+компілятор перевіряє батьківський блок і т.д.
 
     @var: red;
 
@@ -545,117 +571,123 @@ and if they aren't found, the compiler will look in the parent scope, and so on.
       color: @var; // red
     }
 
-Comments
---------
+Коментарі
+---------
 
-CSS-style comments are preserved by LESS:
+В LESS використовуються коментарі у стилі CSS:
 
-    /* Hello, I'm a CSS-style comment */
+    /* Привіт, я коментар у стилі CSS! */
     .class { color: black }
 
-Single-line comments are also valid in LESS, but they are 'silent',
-they don't show up in the compiled CSS output:
+До того ж, однорядкові коментарі також дозволяються, але в скомпільованому коді 
+вони не відображатимуться:
 
-    // Hi, I'm a silent comment, I won't show up in your CSS
+    // Привіт, я ’мовчазний’ коментар, я не хочу показуватися у твоїх CSS
     .class { color: white }
 
 Importing
 ---------
 
-You can import `.less` files, and all the variables and mixins in them will be made available to the main file.
-The `.less` extension is optional, so both of these are valid:
+`.less` файли можна імпортувати, і всі змінні та домішки в них стануть 
+доступними в файлі, в який вони імпотуються. Вказувати розширення `.less` не 
+обов’язково, тому обидва записи правильні:
 
     @import "lib.less";
     @import "lib";
 
-If a file already has an extension or parameters, it will not get ".less" added on the end. If you want to import a CSS file,
-and don't want LESS to process it, just use the `.css` extension:
+Якщо потрібно вмпортувати CSS файл і компілятор не повинен його обробляти, 
+просто явно вкажіть розширення `.css`:
 
     @import "lib.css";
 
-The directive will just be left as is, and end up in the CSS output. This will occur for any import that ends in css, before url parameters.
+Файл не буде підвантажуватися і відобразиться лише у скомпільованому CSS.
 
-If you want to import a file only if it has not been imported already, use `@import-once`
+Якщо потрібно завантажити файл тільки у тому випадку, якщо він ще не був 
+завантажений, використовуйте `@import-once`
 
     @import-once "lib.less";
-	@import-once "lib.less"; // will be ignored
+	@import-once "lib.less"; // проігнорується
 	
-`@import-once` will be the default behaviour of @import in 1.4.0
+`@import-once` - поведінка "за замовчуванням" для @import у версії 1.4.0
 
-String interpolation
---------------------
+Інтерполяція рядків
+-------------------
 
-Variables can be embeded inside strings in a similar way to ruby or PHP, with the `@{name}` construct:
+Змінні можна вставляти всередину рядків таким самим чином, як і в ruby чи PHP, використовуючи `@{name}` конструкцію:
 
     @base-url: "http://assets.fnord.com";
     background-image: url("@{base-url}/images/bg.png");
 
-Escaping
---------
+Екранування
+-----------
 
-Sometimes you might need to output a CSS value which is either not valid CSS syntax,
-or uses proprietary syntax which LESS doesn't recognize.
+Інколи потрібно вивести синтаксично не валідну CSS змінну, чи застосувати 
+пропрієтарний синтаксис, який LESS не розпізнає.
 
-To output such value, we place it inside a string prefixed with `~`, for example:
+Для того, щоб вивести подібні дані, помітіть їх всередині рядка із префіксом `~`, 
+наприклад:
 
     .class {
       filter: ~"ms:alwaysHasItsOwnSyntax.For.Stuff()";
     }
 
-This is called an "escaped value", which will result in:
+Це "екранована змінна", результатом компіляції якої буде:
 
     .class {
       filter: ms:alwaysHasItsOwnSyntax.For.Stuff();
     }
 	
-Selector Interpolation
+Інтерполяція селекторів
 ----------------------
 
-If you want to use less variables inside selectors, you can do this by referencing the variable using `@{selector}` as 
-in string interpolation. For example:
+Якщо ви хочете використовувати змінні LESS всередині сеекторів, просто вкажіть змінну
+наступним чином: `@{selector}`, тобто, як і при інтерполяції рядків. Наприклад:
 
     @name: blocked;
 	.@{name} {
 	    color: black;
 	}
 	
-will output
+виведе
 
     .blocked {
 	    color: black;
 	}
 	
-Note: prior to less 1.3.1 a `(~"@{name}")` type of selector was supported. Support for this will be removed in 1.4.0.
+Примітка: до версії LESS 1.3.1 підтримувався тип селеторів `(~"@{name}")`. 
+Підтримка цього буде видалена у версії 1.4.0.
 
-JavaScript evaluation
----------------------
+JavaScript вставки
+------------------
 
-JavaScript expressions can be evaluated as values inside .less files. We reccomend using caution with this feature
-as the less will not be compilable by ports and it makes the less harder to mantain. If possible, try to think of a
-function that can be added to achieve the same purpose and ask for it on github. We have plans to allow expanding the
-default functions available. However, if you still want to use JavaScript in .less, this is done by wrapping the expression
-with back-ticks:
+JavaScript вирази можуть виконуватися всередині .less файлів. Ми рекомендуємо обережно 
+використовувати цю можливість, оскільки LESS може не скомпілюватися і це робить підтримку 
+LESS важчою. Якщо можливо, просто подумайте над функцією, яку можна додати, та зверніться 
+з цього приводу на github. Є плани дозволити розширення функцій "за замовчуванням".
+У будь-якому разі, якщо ви досі хочете використовувати JavaScript в .less, вкажіть 
+код всередині зворотніх лапок:
 
     @var: `"hello".toUpperCase() + '!'`;
 
-Becomes:
+Результат:
 
     @var: "HELLO!";
 
-Note that you may also use interpolation and escaping as with strings:
+Зверніть, також, увагу, що мо жна використовувати інтерполяцію та екранування, 
+як і з рядками:
 
     @str: "hello";
     @var: ~`"@{str}".toUpperCase() + '!'`;
 
-Becomes:
+Результат:
 
     @var: HELLO!;
 
-It is also possible to access the JavaScript environment:
+Також є доступ до середовища JavaScript:
 
     @height: `document.body.clientHeight`;
 
-If you want to parse a JavaScript string as a hex color, you may use the `color` function:
+Якщо потрібно розпарсити рядок JavaScript, як hex колір, можна використати функцію `color`:
 
     @color: color(`window.colors.baseColor`);
     @darkcolor: darken(@color, 10%);

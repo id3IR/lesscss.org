@@ -1,4 +1,4 @@
-Include `less.js` to client-side:
+Включення `less.js` на клієнт-сайді:
 
     <link rel="stylesheet/less" type="text/css" href="styles.less">
     <script src="less.js" type="text/javascript"></script>

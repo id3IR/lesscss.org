@@ -1,8 +1,10 @@
-Variables
+
+Змінні
 ---------
 
-Variables allow you to specify widely used values in a single place, and then re-use them throughout the style sheet,
-making global changes as easy as changing one line of code.
+Змінні дозволяють розмістити значення, що постійно використовуються в одному місці, 
+та повторно використовувати їх у файлі стилів, що дозволяє робити глобальні зміни, 
+редактуючи лише один рядок коду.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -18,7 +20,7 @@ h2 {
   color: @color;
 }</code></pre>
   </td><td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Скопмільований CSS */
 
 #header {
   color: #4D926F;
@@ -29,13 +31,13 @@ h2 {
   </tr>
 </table>
 
-Mixins
+Mixin'и
 ------
 
-Mixins allow you to embed all the properties of a class into another class by
-simply including the class name as one of its properties. It's just like variables,
-but for whole classes. Mixins can also behave like functions, and take arguments,
-as seen in the example below.
+Mixin'и дозволяють включати всі властивості одного класу в інший, просто 
+вказавши назву класу, як властивість іншого. Вони подібні до змінних які прив’язані 
+до цілого класу. Mixin'и можуть також використовуватися як функції та приймати 
+аргументи, як видно з прикладу нижче:
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -76,12 +78,12 @@ as seen in the example below.
   </td></tr>
 </table>
 
-Nested Rules
+Вкладені правила
 ------------
 
-Rather than constructing long selector names to specify inheritance,
-in Less you can simply nest selectors inside other selectors.
-This makes inheritance clear and style sheets shorter.
+Замість використовувати довгі імена селекторів для того, щоб вказати на наслідування, 
+в Less можна просто вкласти селектори всередині інших. Це дозволяє зробити 
+наслідування селекторів більш читабельним, а таблиці стилів менших розмірів.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -103,7 +105,7 @@ This makes inheritance clear and style sheets shorter.
 </code></pre></td>
 
 <td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Скомпільований CSS */
 
 #header h1 {
   font-size: 26px;
@@ -123,15 +125,14 @@ This makes inheritance clear and style sheets shorter.
   </td></tr>
 </table>
 
-Functions & Operations
+Функції та оператори
 ----------------------
 
-Are some elements in your style sheet proportional to other elements?
-Operations let you add, subtract, divide and multiply property values and colors,
-giving you the power to create complex relationships between properties. Operations
-should only be performed within parentheses in order to ensure compatibility with CSS.
-Functions map one-to-one with JavaScript code, allowing you to manipulate values however
-you want.
+Чи є деякі елементи у ваших стилях пропорційними відносно інших?
+Операції дозволять вам додавати, віднімати, ділити та множити значення 
+властивостей та кольори, надаючи вам можливість створювати залежності між властивостями.
+Функції використовуються так само, як і в JavaScript коді, дозволяючи як завгодно 
+маніпулювати змінними.
 
 <table class="code-example" cellpadding="0">
   <tr><td>
@@ -155,7 +156,7 @@ you want.
 </code></pre></td>
 
 <td>
-  <pre class="css-output"><code>/* Compiled CSS */
+  <pre class="css-output"><code>/* Скомпільований CSS */
 
 #header {
   color: #333;

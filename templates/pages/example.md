@@ -1,4 +1,4 @@
-Write some LESS:
+Пишіть із LESS:
 
     @base: #f938ab;
 

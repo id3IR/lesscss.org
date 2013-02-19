@@ -1,4 +1,6 @@
-About
-=====
 
-LESS was developed by [Alexis Sellier](http://cloudhead.io), more commonly known as [cloudhead](http://cloudhead.io).
+Про
+===
+
+LESS створений [Alexis Sellier](http://cloudhead.io) aka [cloudhead](http://cloudhead.io).<br/>
+Автор перекладу сайту [Максим Колодежний](http://www.komaval.com) aka [komaval](http://github.com/komaval)

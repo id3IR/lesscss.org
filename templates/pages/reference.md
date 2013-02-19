@@ -1,47 +1,47 @@
 #Index
 
-	escape(@string);               // URL encodes a string
-	e(@string);                    // escape string content
-	%(@string, values...);         // formats a string
+	escape(@string);               // URL кодування рядку
+	e(@string);                    // екранування вмісту рядка
+	%(@string, values...);         // форматування рядка
 	
-	unit(@dimension, [@unit: ""]); // remove or change the unit of a dimension
-	color(@string);				   // parses a string to a color
+	unit(@dimension, [@unit: ""]); // видалити чи змінити одиниці вимірювання
+	color(@string);				   // розбір рядка в колір
 	
-	ceil(@number);                 // rounds up to an integer
-	floor(@number);                // rounds down to an integer
-	percentage(@number);           // converts to a %, e.g. 0.5 -> 50%
-	round(number, [places: 0]);	   // rounds a number to a number of places
+	ceil(@number);                 // округлити "вверх" до цілого значення
+	floor(@number);                // округлити "вниз" до цілого значення
+	percentage(@number);           // перетворення у відсотки %, напр. 0.5 -> 50%
+	round(number, [places: 0]);	   // оуркглити із точністю places
 
-	rgb(@r, @g, @b);                             // converts to a color
-	rgba(@r, @g, @b, @a);                        // converts to a color
-	argb(@color);                                // creates a #AARRGGBB
-	hsl(@hue, @saturation, @lightness);          // creates a color
-	hsla(@hue, @saturation, @lightness, @alpha); // creates a color
-	hsv(@hue, @saturation, @value);              // creates a color
-	hsva(@hue, @saturation, @value, @alpha);     // creates a color
+	rgb(@r, @g, @b);                             // конвертація в колір
+	rgba(@r, @g, @b, @a);                        // конвертація в колір
+	argb(@color);                                // створити #AARRGGBB
+	hsl(@hue, @saturation, @lightness);          // створити колір
+	hsla(@hue, @saturation, @lightness, @alpha); // створити колір
+	hsv(@hue, @saturation, @value);              // створити колір
+	hsva(@hue, @saturation, @value, @alpha);     // створити колір
 	
-    hue(@color);        // returns the `hue` channel of @color
-    saturation(@color); // returns the `saturation` channel of @color
-    lightness(@color);  // returns the 'lightness' channel of @color
-    red(@color);        // returns the 'red' channel of @color
-    green(@color);      // returns the 'green' channel of @color
-    blue(@color);       // returns the 'blue' channel of @color
-    alpha(@color);      // returns the 'alpha' channel of @color
-    luma(@color);       // returns the 'luma' value (perceptual brightness) of @color
+    hue(@color);        // повертає `hue` канал кольору @color
+    saturation(@color); // повертає `saturation` канал кольору @color
+    lightness(@color);  // повертає 'lightness' канал кольору @color
+    red(@color);        // повертає 'red' канал кольору @color
+    green(@color);      // повертає 'green' канал кольору @color
+    blue(@color);       // повертає 'blue' канал кольору @color
+    alpha(@color);      // повертає 'alpha' канал кольору @color
+    luma(@color);       // повертає 'luma' значення (перцептивну яскравість) кольору @color
 	
-    saturate(@color, 10%);                  // return a color 10% points *more* saturated
-    desaturate(@color, 10%);                // return a color 10% points *less* saturated
-    lighten(@color, 10%);                   // return a color 10% points *lighter*
-    darken(@color, 10%);                    // return a color 10% points *darker*
-    fadein(@color, 10%);                    // return a color 10% points *less* transparent
-    fadeout(@color, 10%);                   // return a color 10% points *more* transparent
-    fade(@color, 50%);                      // return @color with 50% transparency
-    spin(@color, 10);                       // return a color with a 10 degree larger in hue
-    mix(@color1, @color2, [@weight: 50%]);  // return a mix of @color1 and @color2
-	greyscale(@color);                      // returns a grey, 100% desaturated color
+    saturate(@color, 10%);                  // повертає колір на 10% *більш* насичений
+    desaturate(@color, 10%);                // повертає колір на 10% *менш* насичений
+    lighten(@color, 10%);                   // повертає колір на 10% *світліший*
+    darken(@color, 10%);                    // повертає колір на 10% *темніший*
+    fadein(@color, 10%);                    // повертає колір на 10% *менш* прозорий
+    fadeout(@color, 10%);                   // повертає колір на 10% *більш* прозорий
+    fade(@color, 50%);                      // повертає колір @color із прозорістю 50%
+    spin(@color, 10);                       // повертає на 10 градусів більший у відтінку колір
+    mix(@color1, @color2, [@weight: 50%]);  // поверає суміш @color1 та @color2
+	greyscale(@color);                      // повертає сірий, 100% ненасичений колір
     contrast(@color1, [@darkcolor: black], [@lightcolor: white], [@threshold: 43%]); 
-	                                        // return @darkcolor if @color1 is > 43% luma  
-		                                    // otherwise return @lightcolor
+	                                        // повертає @darkcolor якщо @color1 яскравіший на 43%  
+		                                    // у іншому випадку повертає @lightcolor
 
 	multiply(@color1, @color2);
 	screen(@color1, @color2);
@@ -53,32 +53,32 @@
 	average(@color1, @color2);
 	negation(@color1, @color2);
 	
-#String functions
+#Рядкові функції
 ###escape
 
-Applies [URL-encoding](http://en.wikipedia.org/wiki/Percent-encoding) to special characters found in the input string. 
+Застосовує [URL-кодування](http://en.wikipedia.org/wiki/Percent-encoding) до спеціальний символів у вхідному рядку. 
 
-* Following characters are exceptions and not encoded: `,`, `/`, `?`, `@`, `&`, `+`, `'`, `~`, `!` and `$`. 
-* Most common encoded characters are: `<space>`, `#`, `^`, `(`, `)`, `{`, `}`, `|`, `:`, `>`, `<`, `;`, `]`, `[` and `=`.
+* Наступні символи - виключення і не кодуються: `,`, `/`, `?`, `@`, `&`, `+`, `'`, `~`, `!` та `$`. 
+* Найчастіші символи що кодуються: `<space>`, `#`, `^`, `(`, `)`, `{`, `}`, `|`, `:`, `>`, `<`, `;`, `]`, `[` та `=`.
 
-Parameters:
+Параметри:
 
-* `string`: A string to escape
+* `string`: Рядок для кодування
 
-Returns: escaped `string` content without quotes.
+Повертає: екранований `string` без лапок.
 
-Example:
+Приклад:
 
     escape('a=1')
 
-Output:
+Результат:
 
     a%3D1
     
 Note: Function behavior if a parameter is non-string parameters is not defined. Current implementation returns `undefined` on color and unchanged input on any other kind of argument. This behaviour should not be relied on and can change in the future.
 
 ###e
-CSS escaping similar to `~"value"` syntax. It expects string as a parameter and return its content as is, but without quotes. It can be used to output CSS value which is either not valid CSS syntax, or uses proprietary syntax which LESS doesn�t recognize.
+CSS escaping similar to `~"value"` syntax. It expects string as a parameter and return its content as is, but without quotes. It can be used to output CSS value which is either not valid CSS syntax, or uses proprietary syntax which LESS doesn’t recognize.
 
 Parameters:
 
