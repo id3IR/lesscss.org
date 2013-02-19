@@ -97,7 +97,7 @@ h2 {
   }
   p { font-size: 12px;
     a { text-decoration: none;
-      &:hover { border-width: 1px }
+      &amp;:hover { border-width: 1px }
     }
   }
 }

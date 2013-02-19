@@ -24,8 +24,15 @@ layout: default
     </section>
 
     <section id="example">
-      <%= markdown File.read(Toto::Paths[:pages] + '/example.md') %>
-      <%= markdown File.read(Toto::Paths[:pages] + '/usage-brief-serverside.md') %>
+      {% capture example %}
+        {% include example.md %}
+      {% endcapture %}
+      {{ example | markdownify }}
+
+      {% capture usage_brief_serverside %}
+        {% include usage-brief-serverside.md %}
+      {% endcapture %}
+      {{ usage_brief_serverside | markdownify }}
     </section>
   </div>
   <div style="clear: both"></div>
@@ -63,27 +70,39 @@ layout: default
 
 <section id="synopsis" class="page page-dark">
   <div class="content">
-    <%= markdown File.read(Toto::Paths[:pages] + '/synopsis.md') %>
+    {% capture synopsis %}
+      {% include synopsis.md %}
+    {% endcapture %}
+    {{ synopsis | markdownify }}
   </div>
 </section>
 
 <section id="usage" class="page page-dark">
   <div class="content">
-    <%= markdown File.read(Toto::Paths[:pages] + '/usage.md') %>
+    {% capture usage %}
+      {% include usage.md %}
+    {% endcapture %}
+    {{ usage | markdownify }}
   </div>
 </section>
 
 <section id="docs" class="page page-light">
   <h1>Мова</h1>
   <div class="content">
-    <%= markdown File.read(Toto::Paths[:pages] + '/doc.md') %>
+    {% capture doc %}
+      {% include doc.md %}
+    {% endcapture %}
+    {{ doc | markdownify }}
   </div>
 </section>
 
 <section id="reference" class="page page-light">
   <h1>Довідник функцій</h1>
   <div class="content">
-    <%= markdown File.read(Toto::Paths[:pages] + '/reference.md') %>
+    {% capture reference %}
+      {% include reference.md %}
+    {% endcapture %}
+    {{ reference | markdownify }}
   </div>
 </section>
 
@@ -104,7 +123,10 @@ layout: default
 
 <section id="about" class="page page-dark">
   <div class="content">
-    <%= markdown File.read(Toto::Paths[:pages] + '/about.md') %>
+    {% capture about %}
+      {% include about.md %}
+    {% endcapture %}
+    {{ about | markdownify }}
     <footer>
         <p>підтримується <a href="http://github.com/cloudhead/less.js">LESS</a></p>
         <p id="copy">Copyright &copy; Alexis Sellier 2010-2013</p>
