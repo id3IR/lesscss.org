@@ -721,14 +721,21 @@ Remove all saturation from a color; the same as calling `desaturate(@color, 100%
 
     #808080 // hsl(90, 0%, 50%)
 ###contrast
-Choose which of two colors provides the greatest contrast with another. This is useful for ensuring that a color is readable against a background, which is also useful for accessibility compliance. This function works the same way as the [contrast function in Compass for SASS](http://compass-style.org/reference/compass/utilities/color/contrast/). In accordance with [WCAG 2.0](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef), colors are compared using their luma value, not their lightness.
+Вибрати, який із двох кольорів більш контрастний від іншого. Це корисно для того 
+щоб переконатися, що колір читається на фоні, що також корисно для забеспечення доступності.
+Ця функція працює так само як [contrast function in Compass for SASS](http://compass-style.org/reference/compass/utilities/color/contrast/). 
+У відповідності до [WCAG 2.0](http://www.w3.org/TR/2008/REC-WCAG20-20081211/#relativeluminancedef), 
+кольори порівнються, використовуючи їх значення luma, а не яскравість.
 
 Параметри:
 
-* `color`: Об’єкт кольору to compare against.
-* `dark`: optional - A designated dark color (defaults to black).
-* `light`: optional - A designated light color (defaults to white).
-* `threshold`: optional - Відсоток 0-100% specifying where the transition from "dark" to "light" is (defaults to 43%). This is used to bias the contrast one way or another, for example to allow you to decide whether a 50% grey background should result in black or white text. You would generally set this lower for 'lighter' palettes, higher for 'darker' ones. Defaults to 43%.
+* `color`: Об’єкт кольору з яким порівнювати.
+* `dark`: optional - Темніший колір (за замовчуваннями чорний).
+* `light`: optional - Світліший колір (за замовчуваннями білий).
+* `threshold`: optional - Відсоток 0-100%, що вказує де знаходиться перехід від 
+"темного" до "світлого" (за замовчуваннями 43%). Використовується для "зсуву" контрасту, 
+наприклад, для того, щоб було можливим вирішити, чи 50% сірий фон дає у результаті чорний чи білий текст.
+Встановіть значення меншим для 'світліших' палітер та більшим для 'темніших' палітер. За замовчуванням 43%.
 
 Повертає: `колір`
 
@@ -742,26 +749,28 @@ Choose which of two colors provides the greatest contrast with another. This is 
 
 Результат:
 
-    #000000 // black
-    #ffffff // white
+    #000000 // чорний
+    #ffffff // білий
     #dddddd
-    #000000 // black
-    #ffffff // white
+    #000000 // чорний
+    #ffffff // білий
 
-##Color blending
-These operations are _similar_ as the blend modes found in image editors like Photoshop, Firework or GIMP, so you can use them to make your CSS colors match your images.
+##Змішування кольорів
+Ці операції _однакові_ до змішування мод, як у редакторах, на кшталт Photoshop, Firework or GIMP,
+тому можна використовувати її для того, щоб зробити CSS кольори більш органічними до зображень.
 
 ###multiply
-Multiply two colors. For each two colors their RGB channel are multiplied then divided by 255. The result is a darker color.
+Множення двох кольорів. Для кожного із двох кольорів RGB канал перемножується, 
+а потім ділиться на 255. Результатом є темніший колір.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to multiply against.
-* `color2`: Об’єкт кольору to multiply against.
+* `color1`: Об’єкт кольору для множення.
+* `color2`: Об’єкт кольору для множення.
 
 Повертає: `колір`
 
-Examples:
+Приклади:
 
     multiply(#ff6600, #000000);
     
@@ -818,12 +827,12 @@ Examples:
 ![Color 3](http://placehold.it/100x40/ff6600/ffffff&text=ff6600)
 
 ###screen
-Do the opposite effect from `multiply`. The result is a brighter color.
+Ефект, протилежний до множення. Результатом є яскравіший колір.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to _screen_ against.
-* `color2`: Об’єкт кольору to _screen_ against.
+* `color1`: Об’єкт кольору для операції _screen_.
+* `color2`: Об’єкт кольору для операції _screen_.
 
 Повертає: `колір`
 
@@ -884,12 +893,13 @@ Do the opposite effect from `multiply`. The result is a brighter color.
 ![Color 3](http://placehold.it/100x40/ff66ff/000000&text=ff66ff)
 
 ###overlay
-Combines the effect from both `multiply` and `screen`. Conditionally make light channels lighter and dark channels darker. **Note**: The results of the conditions are determined by the first color parameter.
+Комбінує ефект `multiply` та `screen`. Відносно робить світлі канали світлішими і темні канали темнішими.
+**Примітка**: Результат умови визначається за першим параметром.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to overlay another. Also it is the determinant color to make the result lighter or darker.
-* `color2`: Об’єкт кольору to be _overlayed_.
+* `color1`: Об’єкт кольору для перекриття. Також визначає результат: світліший, чи темніший.
+* `color2`: Об’єкт кольору для _перекривання_.
 
 Повертає: `колір`
 
@@ -950,12 +960,12 @@ Combines the effect from both `multiply` and `screen`. Conditionally make light 
 ![Color 3](http://placehold.it/100x40/ff0000/ffffff&text=ff0000)
 
 ###softlight
-Similar to `overlay` but avoid pure black resulting in pure black, and pure white resulting in pure white.
+Подібно до `overlay`, але дозволяє уникнути у результаті цілком білого, або цілком чорного кольору.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to _soft light_ another.
-* `color2`: Об’єкт кольору to be _soft lighten_.
+* `color1`: Об’єкт кольору для "_пом’якшення_".
+* `color2`: Об’єкт кольору що буде "_пом’якшений_".
 
 Повертає: `колір`
 
@@ -1016,12 +1026,13 @@ Similar to `overlay` but avoid pure black resulting in pure black, and pure whit
 ![Color 3](http://placehold.it/100x40/ff2900/ffffff&text=ff2900)
 
 ###hardlight
-Similar to `overlay` but use the second color to detect light and dark channels instead of using the first color.
+Подібно до `overlay`, але використовує другий колір, для визначення світлих і 
+темних каналів, замість того, щоб використовувати перший колір.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to overlay another.
-* `color2`: Об’єкт кольору to be _overlayed_. Also it is the determinant color to make the result lighter or darker.
+* `color1`: Об’єкт кольору для перекриття іншого.
+* `color2`: Об’єкт кольору який буде _перекритим_. Також визначальний колір для результату: світлішого чи темнішого.
 
 Повертає: `колір`
 
@@ -1082,12 +1093,13 @@ Similar to `overlay` but use the second color to detect light and dark channels 
 ![Color 3](http://placehold.it/100x40/0000ff/ffffff&text=0000ff)
 
 ###difference
-Substracts the second color from the first color. The operation is made per RGB channels. The result is a darker color.
+Віднімає другий колір від першого. Операція виконується для кожного RGB каналу. 
+Результатом є темніший колір.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to act as the minuend.
-* `color2`: Об’єкт кольору to act as the subtrahend.
+* `color1`: Об’єкт кольору, ділене.
+* `color2`: Об’єкт кольору, дільник.
 
 Повертає: `колір`
 
@@ -1148,12 +1160,12 @@ Substracts the second color from the first color. The operation is made per RGB 
 ![Color 3](http://placehold.it/100x40/ff66ff/000000&text=ff66ff)
 
 ###exclusion
-Similar effect to `difference` with lower contrast.
+Подібно до `difference` із меншим контрастом.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to act as the minuend.
-* `color2`: Об’єкт кольору to act as the subtrahend.
+* `color1`: Об’єкт кольору, ділене.
+* `color2`: Об’єкт кольору, дільник.
 
 Повертає: `колір`
 
@@ -1214,7 +1226,7 @@ Similar effect to `difference` with lower contrast.
 ![Color 3](http://placehold.it/100x40/ff66ff/000000&text=ff66ff)
 
 ###average
-Compute the average of two colors. The operation is made per RGB channels.
+Обчислити середнє значення двох кольорів. Операція виконується по-канально (RGB).
 
 Параметри:
 
@@ -1280,12 +1292,13 @@ Compute the average of two colors. The operation is made per RGB channels.
 ![Color 3](http://placehold.it/100x40/803380/ffffff&text=803380)
 
 ###negation
-Do the opposite effect from `difference`. The result is a brighter color. **Note**: The _opposite_ effect doesn't mean the _inverted_ effect as resulting to an _addition_ operation.
+Протилежний до `difference` ефект. Результатом є яскравіший колір. 
+**Примітка**: Під ефектом _opposite_ не розуміється ефект _інвертування_ як результат операції _додавання_.
 
 Параметри:
 
-* `color1`: Об’єкт кольору to act as the minuend.
-* `color2`: Об’єкт кольору to act as the subtrahend.
+* `color1`: Об’єкт кольору, ділене.
+* `color2`: Об’єкт кольору, дільник.
 
 Повертає: `колір`
 
